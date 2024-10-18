@@ -19,10 +19,13 @@ POST /sellers/login: Authenticate seller login.
 GET /sellers/:id: Fetch seller profile by ID.
 PUT /sellers/:id: Update seller information.
 DELETE /sellers/:id: Delete seller account. 2. Service Request Routes
+
 POST /services: Create a new service request.
 GET /services/:id: Fetch details of a service request by ID.
 PUT /services/:id: Update the status of a service request.
-DELETE /services/:id: Remove a service request. 3. Reviews Routes
-POST /reviews: Submit a review for a completed service.
-GET /reviews/:sellerId: Fetch reviews for a specific seller.
-DELETE /reviews/:id: Remove a review.
+DELETE /services/:id: Remove a service request.
+
+3. Reviews Routes
+   POST /reviews: Submit a review for a completed service.
+   GET /reviews/:sellerId: Fetch reviews for a specific seller.
+   DELETE /reviews/:id: Remove a review.

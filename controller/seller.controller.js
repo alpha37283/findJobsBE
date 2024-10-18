@@ -13,8 +13,6 @@ const { default: mongoose } = require('mongoose');
 
 const Seller = require('../models/user_info.model.js');
 
-const PORT = process.env.PORT || 3000;
-
 app.use(express.urlencoded({extended : true}));
 app.use(express.json());
 
