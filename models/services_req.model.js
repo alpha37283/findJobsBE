@@ -7,9 +7,21 @@ const servicesSchema = new Schema({
         required: true, // Fixed typo (require -> required)
         ref: 'Seller' // If you're referencing the seller's collection
     },
+    buyerId: {
+        type : Types.ObjectId,
+    //    required : true,
+    },
+    buyerName : {
+        type : String,
+        required : true,
+    },
+    serviceRequested : {
+        type : String,
+        required : true,
+    },
     status: {
         type: String,
-        enum: ['Pending', 'InProgress', 'Completed'], // Restricted to 3 options => enumerations 
+        enum: ['Pending', 'InProgress', 'Completed','Cancel'], // Restricted to 3 options => enumerations 
         default: 'Pending',
         required: true
     },
@@ -21,11 +33,22 @@ const servicesSchema = new Schema({
         type: Date,
         required: true
     },
+    price : {
+        type : Number,
+        required : true,
+        min : 300,
+        max : 10000,
+    },
     paymentMethod: {
         type: String,
         enum: ['Cash', 'Card'], // Two payment options only
         required: true
-    }
+    },
+    address : {
+        type : String,
+        required : true,
+    },
+
 });
 
 const ServiceRequested = mongoose.model('ServiceRequested', servicesSchema);

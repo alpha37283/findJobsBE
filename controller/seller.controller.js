@@ -18,7 +18,14 @@ app.use(express.json());
 
 
 const createSeller = async (req, res) => {
-    const {name, email, password, servicesOffering, location, rating, bio} = req.body;
+    const { name, email, password, servicesOffering, location, rating, bio } = req.body;   // here id is require becuase we have to reference to the seller who's services are being
+
+    console.log(req.body);
+
+    // if (!name || !email || !password || !servicesOffering || !location || !rating || !bio) {
+    //     return res.status(400).json({ success: false, err: "All fields are required" });
+    // }
+
 
     const existSeller = await Seller.findOne({ email: email });
     if(existSeller)
@@ -26,6 +33,8 @@ const createSeller = async (req, res) => {
         console.log('User exists')
         return res.status(400).json({success : false, err : 'Seller Already Exists'})
     }
+
+    console.log('Type of the password is : => ', typeof(password))
 
     const hashedPassword = await bcrypt.hash(password, 10);
     console.log('Password hashed Success')
@@ -55,6 +64,27 @@ const createSeller = async (req, res) => {
 }
 
 
+const loginSeller = async (req, res) => {
+    const {email, password} = req.body;
+
+    try{
+        const seller = await Seller.findOne({email : email});
+
+        if (!seller || !(await bcrypt.compare(password, seller.password))) {
+            console.log('email : ', email, ' password  : ', password);
+            console.log('invalid id or passwowrd')
+            return res.json({ success: false, msg: 'Invalid credentials' });
+          }
+            
+          res.json({seller : seller , success: true, msg: 'Login successful' });
+    }
+    catch(e){
+        console.log('An error occured while logging in!!!!',e);
+    }
+
+}
+
+
 const getSeller = async (req, res) => {
     const {id} = req.params;
 
@@ -71,7 +101,7 @@ const getSeller = async (req, res) => {
             return res.status(404).json({err : 'No Seller found'});
             
         }
-
+        console.log('get seller hit !!! ')
         const { password, ...sellerInfo } = seller.toObject();
 
         return res.status(200).json({success : true, sellerInfo});
@@ -82,6 +112,9 @@ const getSeller = async (req, res) => {
         res.status(500).json('Error occured : ', err);
     }
 }
+
+
+
 
 
 const updateSeller = async (req, res) => {
@@ -146,4 +179,4 @@ const deleteSeller = async (req, res) => {
 
 }
 
-module.exports = {createSeller, getSeller, updateSeller, deleteSeller};
+module.exports = {createSeller, loginSeller, getSeller, updateSeller, deleteSeller};

@@ -16,18 +16,26 @@ app.use(express.json());
 // GET /services/:id: Fetch details of a service request by ID.
 // PUT /services/:id: Update the status of a service request.
 // DELETE /services/:id: Remove a service request.
+
+
+
 const createService = async (req, res) => {
     
     const {
         sellerId,
+        buyerId,
+        buyerName,
+        serviceRequested,
         status,
         jobDescription,
         scheduledTime,
-        paymentMethod
+        price,
+        paymentMethod,
+        address
     } = req.body;
 
-    if(!sellerId || !status || !jobDescription || !scheduledTime
-        || !paymentMethod){
+    if(!sellerId || !status || !jobDescription || !scheduledTime || !price
+        || !paymentMethod || !address || !buyerName || !serviceRequested){
         return res.status(400).json('Missing one of the fields !!!');
     }
 
@@ -38,17 +46,22 @@ const createService = async (req, res) => {
         if(!seller)
             return res.status(404).json({err : "Invalid Req, seller not available"});
     
-        const isServiceAvailable = seller.servicesOffering.includes(jobDescription);
+        // const isServiceAvailable = seller.servicesOffering.includes(jobDescription);
 
-        if(!isServiceAvailable)
-            return res.status(400).json({err : "The service is not available by this seller !!!"});
+        // if(!isServiceAvailable)
+        //     return res.status(400).json({err : "The service is not available by this seller !!!"});
 
         const newService = new ServiceRequested({
             sellerId,
+            buyerId,
+            buyerName,
+            serviceRequested,
             status,
             jobDescription,
             scheduledTime,
-            paymentMethod
+            price,
+            paymentMethod,
+            address
 
         })
 
@@ -64,33 +77,39 @@ const createService = async (req, res) => {
 
 
 
-const getService =  async (req, res) => {
+const getService = async (req, res) => {
 
-    const serviceId = req.params.id;
+    const sellerId = req.params.id; 
 
-    if(!serviceId || !mongoose.Types.ObjectId.isValid(serviceId))
-        return res.status(400).json({err : "Id missing or invalid !!!"})
+    console.log(sellerId);
 
-    try{
-        const service = await ServiceRequested.findById(serviceId);
+    if (!sellerId || !mongoose.Types.ObjectId.isValid(sellerId)) {
+        return res.status(400).json({ err: "Id missing or invalid !!!" });
+    }
 
-        if(!service)
-        {
-            return res.status(404).json({success : false, err : "Service not available !!!"});
+    try {
+      
+        const services = await ServiceRequested.find({ sellerId });
+
+        console.log('Services found for seller:', services);
+
+        if (!services || services.length === 0) {
+            return res.status(404).json({ success: false, err: "No services found for this seller!" });
         }
 
-        res.status(200).json({success : true, service});
-    }
-    catch(err)
-    {
+        res.status(200).json({ success: true, services });
+    } catch (err) {
         console.log(err);
-        res.status(500).send(err);
+        res.status(500).json({ success: false, err: err.message });
     }
+};
 
-}
 
 
 const updateService = async (req, res) => {
+
+    const serviceId = req.params.id;
+    const updates = req.body;
 
 
     if (!updates || Object.keys(updates).length === 0) 

@@ -18,13 +18,12 @@ const sellerInfo = new mongoose.Schema({
     },    
     servicesOffering : {
         type : [String],
-        required : true,
+        
         validate: [arrayLimit, '{PATH} exceeds the limit of 5 services']
 
     },
     location : {
-        type : String,
-        required : true
+        type : String, 
     },
     rating : {
         type : Number,
@@ -34,6 +33,30 @@ const sellerInfo = new mongoose.Schema({
     },
     bio : {
         type : String
+    },
+    order : {
+        active : {
+            type : Number,
+            min : 0,
+            default : 0,
+        },
+        total : {
+            type : Number,
+            min : 0,
+            default : 0,
+        },
+    },
+    income : {
+        monthly : {
+            type : Number,
+            min : 0,
+            default : 0
+        },
+        total : {
+            type : Number,
+            min : 0,
+            default : 0,
+        },
     }
 }, {timestamps : true})
 
