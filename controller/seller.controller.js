@@ -18,7 +18,7 @@ app.use(express.json());
 
 
 const createSeller = async (req, res) => {
-    const { name, email, password, servicesOffering, location, rating, bio } = req.body;   // here id is require becuase we have to reference to the seller who's services are being
+    const { name, email, password, servicesOffering, location, rating, bio, order, income } = req.body;   // here id is require becuase we have to reference to the seller who's services are being
 
     console.log(req.body);
 
@@ -46,7 +46,9 @@ const createSeller = async (req, res) => {
         servicesOffering,
         location,
         rating,
-        bio
+        bio,
+        order,
+        income 
     })
 
 
