@@ -21,7 +21,7 @@ const servicesSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'InProgress', 'Completed','Cancel'], // Restricted to 3 options => enumerations 
+        enum: ['Pending', 'InProgress', 'Completed','Cancelled'], // Restricted to 3 options => enumerations 
         default: 'Pending',
         required: true
     },
@@ -47,6 +47,17 @@ const servicesSchema = new Schema({
     address : {
         type : String,
         required : true,
+    },
+    contactNumber : {
+        type : String,
+        required : true
+    },
+    requestCreatedAt: {
+        type: Date,
+        default: Date.now, 
+    }, 
+    requestUpdatedAt: {
+        type: Date,
     },
 
 });
