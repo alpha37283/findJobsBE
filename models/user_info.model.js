@@ -18,7 +18,6 @@ const sellerInfo = new mongoose.Schema({
     },    
     servicesOffering : {
         type : [String],
-        
         validate: [arrayLimit, '{PATH} exceeds the limit of 5 services']
 
     },
@@ -57,7 +56,20 @@ const sellerInfo = new mongoose.Schema({
             min : 0,
             default : 0,
         },
-    }
+    },
+    contactNumber : {
+        type : String,
+    },
+    profileImage: { 
+        data: {
+            type: Buffer,
+            default: undefined, 
+        },       
+        contentType: {
+            type: String,
+            default: undefined, 
+        }
+    },
 }, {timestamps : true})
 
 function arrayLimit(val) {

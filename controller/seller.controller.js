@@ -18,7 +18,7 @@ app.use(express.json());
 
 
 const createSeller = async (req, res) => {
-    const { name, email, password, servicesOffering, location, rating, bio, order, income } = req.body;   // here id is require becuase we have to reference to the seller who's services are being
+    const { name, email, password, servicesOffering, location, rating, bio, order, income, contactNumber, profileImage} = req.body;   // here id is require becuase we have to reference to the seller who's services are being
 
     console.log(req.body);
 
@@ -48,7 +48,9 @@ const createSeller = async (req, res) => {
         rating,
         bio,
         order,
-        income 
+        income,
+        contactNumber,
+        profileImage
     })
 
 
@@ -123,6 +125,8 @@ const updateSeller = async (req, res) => {
 
     const {id} = req.params;
     const updates = req.body;
+
+    console.log('Update seller is hit with updates => ', updates);
 
     if(!id || !mongoose.Types.ObjectId.isValid(id))
     {
