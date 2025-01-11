@@ -62,7 +62,7 @@ const sellerInfo = new mongoose.Schema({
     },
     profileImage: { 
         data: {
-            type: Buffer,
+            type: String,
             default: undefined, 
         },       
         contentType: {

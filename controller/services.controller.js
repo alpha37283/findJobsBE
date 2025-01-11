@@ -76,10 +76,10 @@ const getService = async (req, res) => {
     }
 
     try {
-        const services = await ServiceRequested.find({ sellerId }).sort({ requestCreatedAt: -1 }); // Sort by creation time
+        const services = await ServiceRequested.find({ sellerId }).sort({ requestCreatedAt: -1 }); 
 
-        if (!services || services.length === 0) {
-            return res.status(404).json({ success: false, err: "No services found for this seller!" });
+        if (!services) {
+            return res.status(200).json({ success: true, msg: "No services found for this seller!", services });
         }
 
         res.status(200).json({ success: true, services });
