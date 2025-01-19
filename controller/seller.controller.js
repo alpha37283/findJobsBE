@@ -118,6 +118,35 @@ const getSeller = async (req, res) => {
 }
 
 
+const getSellerImage = async(req, res) => {
+    const {id} = req.params;
+
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ success: false, error: 'Invalid or missing seller ID' });
+    }
+
+    try{
+        const seller = await Seller.findById({_id : id});
+
+        if(!seller)
+        {
+            console.log('No seller found !!!')
+            return res.status(404).json({err : 'No Seller found'});
+            
+        }
+        console.log('get seller hit !!! ')
+        const { password, ...sellerInfo } = seller.toObject();
+        const {profileImage} = sellerInfo;
+
+        return res.status(200).json({success : true, profileImage});
+    }
+    catch(err)
+    {
+        console.log('An error occured !!!');
+        res.status(500).json('Error occured : ', err);
+    }
+}
+
 
 
 
@@ -185,4 +214,4 @@ const deleteSeller = async (req, res) => {
 
 }
 
-module.exports = {createSeller, loginSeller, getSeller, updateSeller, deleteSeller};
+module.exports = {createSeller, loginSeller, getSeller, updateSeller, deleteSeller, getSellerImage};
