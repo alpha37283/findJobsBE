@@ -3,9 +3,9 @@ const { Schema, Types } = mongoose;
 
 const servicesSchema = new Schema({
     sellerId: {
-        type: Types.ObjectId, // Correct reference for ObjectId
-        required: true, // Fixed typo (require -> required)
-        ref: 'Seller' // If you're referencing the seller's collection
+        type: Types.ObjectId, 
+        required: true,
+        ref: 'Seller' 
     },
     buyerId: {
         type : Types.ObjectId,
